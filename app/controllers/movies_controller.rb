@@ -2,7 +2,6 @@ class MoviesController < ApplicationController
 
   def initialize
     @all_ratings = Movie.all_ratings
-   
   end
   
   def show
@@ -14,13 +13,25 @@ class MoviesController < ApplicationController
   def index
     #@movies = Movie.all
     
+    #filter
     if params[:ratings].nil? 
       @ratings_to_show = []
     else
       @ratings_to_show = params[:ratings].keys
     end
-      
+    @ratings_to_show_hashmap = Hash[@ratings_to_show.map {|el| [el, 1]}]
     @movies = Movie.with_ratings(@ratings_to_show) #this might cause a problem later
+    
+    
+    #Order
+    if params[:sort] == 'title' 
+      @movies = @movies.order(params[:sort])
+      #@title_classes = 'hilite bg-warning' 
+    elsif params[:sort] == 'release_date'
+      @movies = @movies.order(params[:sort])
+      #@release_date_classes = 'hilite bg-warning' 
+    end
+    
   end
 
   def new
