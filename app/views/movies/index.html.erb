@@ -15,9 +15,9 @@
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th> <%= link_to "Movie Title", movies_path(:sort => 'title', :ratings => @ratings_to_show_hashmap), :id => "title_header" %> </th>
+      <th class="<%=@title_classes%>"> <%= link_to "Movie Title", movies_path(:sort => 'title', :ratings => @ratings_to_show_hashmap), :id => "title_header" %> </th>
       <th>Rating</th>
-      <th><%= link_to "Release Date", movies_path(:sort => 'release_date', :ratings => @ratings_to_show_hashmap), :id => "release_date_header" %></th>
+      <th class="<%=@release_date_classes%>"><%= link_to "Release Date", movies_path(:sort => 'release_date', :ratings => @ratings_to_show_hashmap), :id => "release_date_header" %></th>
       <th>More Info</th>
     </tr>
   </thead>
