@@ -56,6 +56,7 @@ class MoviesController < ApplicationController
       @movies = @movies.order(session[:sort])
       @release_date_classes = 'hilite bg-warning' 
     end
+      
   end
 
   def new
