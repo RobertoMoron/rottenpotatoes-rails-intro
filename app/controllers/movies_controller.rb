@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
     
     #filter
     if (params[:ratings].nil? && session[:ratings].nil?) #|| (!session[:ratings].nil? && params[:ratings].nil?)
-      session[:ratings] = []
+      session[:ratings] = @all_ratings
     elsif (!params[:ratings].nil? && session[:ratings].nil?) || (!session[:ratings].nil? && !params[:ratings].nil? && session[:ratings] != params[:ratings])
       session[:ratings] = params[:ratings].keys
     #elsif !session[:ratings].nil? && params[:ratings].nil?
