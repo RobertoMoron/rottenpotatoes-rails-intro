@@ -10,33 +10,52 @@ class MoviesController < ApplicationController
     #@movies = Movie.all
     @all_ratings = Movie.all_ratings
     
+#     #filter
+#     if params[:ratings].nil? && session[:ratings].nil? 
+#       @ratings_to_show = []
+#     elsif !params[:ratings].nil?
+#       @ratings_to_show = params[:ratings].keys
+#     elsif !session[:ratings].nil? && 
+#     end
+#     session[:ratings] = @ratings_to_show
+    
     #filter
-    if params[:ratings].nil?  
-      @ratings_to_show = []
-    else
-      @ratings_to_show = params[:ratings].keys
+    if (params[:ratings].nil? && session[:ratings].nil?) #|| (!session[:ratings].nil? && params[:ratings].nil?)
+      session[:ratings] = []
+    elsif (!params[:ratings].nil? && session[:ratings].nil?) || (!session[:ratings].nil? && !params[:ratings].nil? && session[:ratings] != params[:ratings])
+      session[:ratings] = params[:ratings].keys
+    #elsif !session[:ratings].nil? && params[:ratings].nil?
+      #Do nothing
     end
-    session[:ratings] = @ratings_to_show
-    @ratings_to_show_hashmap = Hash[@ratings_to_show.map {|el| [el, 1]}]
-    @movies = Movie.with_ratings(@ratings_to_show) #this might cause a problem later
+    @ratings_to_show = session[:ratings]
+    @ratings_to_show_hashmap = Hash[session[:ratings].map {|el| [el, 1]}]
+    @movies = Movie.with_ratings(session[:ratings]) 
     
     
-    #Order
-    if params[:sort] == 'title' 
+#     #Order
+#     if params[:sort] == 'title' 
+#       session[:sort] = params[:sort]
+#       @movies = @movies.order(session[:sort])
+#       @title_classes = 'hilite bg-warning' 
+#     elsif params[:sort] == 'release_date'
+#       session[:sort] = params[:sort]
+#       @movies = @movies.order(session[:sort])
+#       @release_date_classes = 'hilite bg-warning' 
+#     end
+    
+    if (!params[:sort].nil? && session[:sort].nil?) || (!params[:sort].nil? && !session[:sort].nil? && session[:sort] != params[:sort])
       session[:sort] = params[:sort]
-      @movies = @movies.order(params[:sort])
+    elsif params[:sort].nil? && !session[:sort].nil?
+      #do nothing
+    end 
+    
+    if session[:sort] == 'title' 
+      @movies = @movies.order(session[:sort])
       @title_classes = 'hilite bg-warning' 
-    elsif params[:sort] == 'release_date'
-      session[:sort] = params[:sort]
-      @movies = @movies.order(params[:sort])
+    elsif session[:sort] == 'release_date'
+      @movies = @movies.order(session[:sort])
       @release_date_classes = 'hilite bg-warning' 
     end
-    
-    
-    
-  
-  
-  
   end
 
   def new
