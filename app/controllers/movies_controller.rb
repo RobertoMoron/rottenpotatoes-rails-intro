@@ -27,6 +27,12 @@ class MoviesController < ApplicationController
     #elsif !session[:ratings].nil? && params[:ratings].nil?
       #Do nothing
     end
+    
+    if params[:ratings].nil? && params[:sort].nil?
+      redirect_to movies_path(:sort => session[:sort], :ratings => session[:ratings])
+    end
+    
+    
     @ratings_to_show = session[:ratings]
     @ratings_to_show_hashmap = Hash[session[:ratings].map {|el| [el, 1]}]
     @movies = Movie.with_ratings(session[:ratings]) 
